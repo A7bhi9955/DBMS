@@ -1,30 +1,212 @@
+--The SQL code creates tables for customers, orders, products, and order items.
+--Foreign keys establish relationships, connecting orders to customers,
+--and order items to both orders and products for data integrity.
+
+
+-----------------------------------------------------------------------------------------------
 CREATE TABLE `Customers` (
   `customer_id` int PRIMARY KEY,
   `name` varchar(50),
   `email` varchar(100)
 );
-
+-----------------------------------------------------------------------------------------------
 CREATE TABLE `Orders` (
   `order_id` int PRIMARY KEY,
   `customer_id` int,
   `order_date` date
 );
-
+-----------------------------------------------------------------------------------------------
 CREATE TABLE `Products` (
   `product_id` int PRIMARY KEY,
   `product_name` varchar(50),
   `price` decimal(10,2)
 );
-
+-----------------------------------------------------------------------------------------------
 CREATE TABLE `Order_Items` (
   `order_id` int,
   `product_id` int,
   `quantity` int,
   `primary` key(order_id, product_id)
 );
-
+-----------------------------------------------------------------------------------------------
 ALTER TABLE `Orders` ADD FOREIGN KEY (`customer_id`) REFERENCES `Customers` (`customer_id`);
 
 ALTER TABLE `Order_Items` ADD FOREIGN KEY (`order_id`) REFERENCES `Orders` (`order_id`);
 
 ALTER TABLE `Order_Items` ADD FOREIGN KEY (`product_id`) REFERENCES `Products` (`product_id`);
+-----------------------------------------------------------------------------------------------
+
+-----HOW TO CREATE PROCEDURE 
+CREATE OR REPLACE PROCEDURE insert_customers(
+  customer_id IN NUMBER,
+  name IN VARCHAR2,
+  email IN VARCHAR2
+)
+IS
+BEGIN
+  INSERT INTO customers VALUES (customer_id, name, email);
+END;
+/
+-----------------------------------------------------------------------------------------------
+CREATE OR REPLACE PROCEDURE orders_insert(
+    order_id IN NUMBER,
+    customer_id IN NUMBER,
+    order_date IN DATE)
+IS 
+BEGIN
+    INSERT INTO orders VALUES (order_id, customer_id, order_date);
+END;
+/
+-----------------------------------------------------------------------------------------------
+create or replace procedure order_items_insert(
+    order_id in number, 
+    product_id in number quantiey in number)
+is 
+begin
+insert into order_items values(order_id,product_id,quantity);
+end;
+/
+-----------------------------------------------------------------------------------------------
+create or replace procedure products_insert(
+    product_id in number,
+    product_name in number,
+    price in number)
+is
+begin
+insert into products(product_id,product_name,price);
+end;
+/
+-----------------------------------------------------------------------------------------------
+BEGIN
+  INSERT_CUSTOMERS(1, 'John', 'john@example.com');
+  INSERT_CUSTOMERS(2, 'Alice', 'alice@example.com');
+  INSERT_CUSTOMERS(3, 'Bob', 'bob@example.com');
+  -- Add more INSERT_CUSTOMERS calls as needed
+  INSERT_CUSTOMERS(4, 'Eva', 'eva@example.com');
+  INSERT_CUSTOMERS(5, 'Mike', 'mike@example.com');
+  INSERT_CUSTOMERS(6, 'Sara', 'sara@example.com');
+  -- Add more INSERT_CUSTOMERS calls as needed
+  INSERT_CUSTOMERS(7, 'Tom', 'tom@example.com');
+  INSERT_CUSTOMERS(8, 'Lisa', 'lisa@example.com');
+  INSERT_CUSTOMERS(9, 'Mark', 'mark@example.com');
+  -- Add more INSERT_CUSTOMERS calls as needed
+  INSERT_CUSTOMERS(10, 'Emily', 'emily@example.com');
+  INSERT_CUSTOMERS(11, 'Daniel', 'daniel@example.com');
+  INSERT_CUSTOMERS(12, 'Grace', 'grace@example.com');
+  -- Add more INSERT_CUSTOMERS calls as needed
+  INSERT_CUSTOMERS(13, 'Chris', 'chris@example.com');
+  INSERT_CUSTOMERS(14, 'Olivia', 'olivia@example.com');
+  INSERT_CUSTOMERS(15, 'Michael', 'michael@example.com');
+  -- Add more INSERT_CUSTOMERS calls as needed
+  INSERT_CUSTOMERS(16, 'Sophia', 'sophia@example.com');
+  INSERT_CUSTOMERS(17, 'Jacob', 'jacob@example.com');
+  INSERT_CUSTOMERS(18, 'Emma', 'emma@example.com');
+  -- Add more INSERT_CUSTOMERS calls as needed
+  INSERT_CUSTOMERS(19, 'Logan', 'logan@example.com');
+  INSERT_CUSTOMERS(20, 'Ava', 'ava@example.com');
+  INSERT_CUSTOMERS(21, 'Liam', 'liam@example.com');
+  -- Add more INSERT_CUSTOMERS calls as needed
+  -- Continue as necessary
+END;
+/
+-----------------------------------------------------------------------------------------------
+BEGIN
+  orders_insert(1002, 2, '01/02/2024');
+  orders_insert(1003, 2, '01/02/2024');
+  orders_insert(1004, 2, '01/02/2024');
+  -- Add more calls to orders_insert with the same data as needed
+  orders_insert(1022, 2, '01/02/2024');
+  orders_insert(1023, 2, '01/02/2024');
+  orders_insert(1024, 2, '01/02/2024');
+  -- Add more calls to orders_insert with the same data as needed
+  orders_insert(1042, 2, '01/02/2024');
+  orders_insert(1043, 2, '01/02/2024');
+  orders_insert(1044, 2, '01/02/2024');
+  -- Add more calls to orders_insert with the same data as needed
+  orders_insert(1062, 2, '01/02/2024');
+  orders_insert(1063, 2, '01/02/2024');
+  orders_insert(1064, 2, '01/02/2024');
+  -- Add more calls to orders_insert with the same data as needed
+  -- Continue as necessary
+END;
+/
+-----------------------------------------------------------------------------------------------
+BEGIN
+  order_items_insert(1002, 102, 3);
+  order_items_insert(1001, 101, 3);
+  order_items_insert(1001, 102, 2);
+  order_items_insert(1002, 103, 1);
+  order_items_insert(1002, 104, 4);
+  order_items_insert(1003, 105, 2);
+  order_items_insert(1003, 106, 3);
+  order_items_insert(1004, 107, 1);
+  order_items_insert(1004, 108, 2);
+  order_items_insert(1005, 109, 3);
+  -- Add more calls to order_items_insert with the same data as needed
+END;
+/
+-----------------------------------------------------------------------------------------------
+BEGIN
+  products_insert(100, 'printer', 400.75);
+  products_insert(123, 'Widget', 9.99);
+  products_insert(101, 'Widget A', 19.99);
+  products_insert(102, 'Printer', 400.75);
+  products_insert(103, 'Monitor', 300);
+  products_insert(104, 'Mouse', 25.99);
+  products_insert(105, 'Keyboard', 50.5);
+  products_insert(106, 'Headphones', 80);
+  products_insert(107, 'Tablet', 350.25);
+  products_insert(108, 'Smartphone', 700);
+  -- Add more calls to products_insert with the same data as needed
+END;
+/
+-----------------------------------------------------------------------------------------------
+
+--Inner join 
+select customers.customer_id,customers.name ,orders.order_id,orders.order_date 
+from customers
+inner join orders on customers.customer_id=orders.customer;
+
+-----------------------------------------------------------------------------------------------
+
+-- Left join 
+select customers.customer_id,customers.name,orders.order_id,orders.order_date
+from customers
+left join orders on customers.customer_id=orders.customer_id;
+
+
+-----------------------------------------------------------------------------------------------
+--Right join 
+select customers.customer_id,customers.name,orders.order_id 
+from customers
+right join orders on customers.customer_id=orders.customer_id;
+
+-----------------------------------------------------------------------------------------------
+
+--Full join 
+select customers.customer_id,customers.name,orders.order_id
+from customers
+full join orders on customers.customer_id=orders.customer_id;
+-----------------------------------------------------------------------------------------------
+-- NATURAL JOIN
+SELECT *
+FROM CUSTOMERS
+NATURAL JOIN ORDERS;
+-----------------------------------------------------------------------------------------------
+--CROSS JOIN
+SELECT *
+FROM CUSTOMERS
+CROSS JOIN ORDERS;
+-----------------------------------------------------------------------------------------------
+--LEFT JOIN IN THREE TABLE
+SELECT *
+FROM CUSTOMERS
+LEFT JOIN ORDERS ON CUSTOMERS.CUSTOMER_ID = ORDERS.CUSTOMER_ID
+LEFT JOIN ORDER_ITEMS ON ORDERS.ORDER_ID = ORDER_ITEMS.ORDER_ID;
+-----------------------------------------------------------------------------------------------
+
+
+
+
+
+
